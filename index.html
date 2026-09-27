@@ -3,13 +3,61 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Straly</title>
-  <meta name="description" content="Straly — desafios e hábitos ativos.">
+  <meta name="theme-color" content="#5E945F">
+  <title>Straly — desafios que seguem com você</title>
+  <meta name="description" content="Entre no Straly para criar desafios, registrar check-ins e acompanhar seu ritmo junto com amigos.">
+  <style>
+    :root { color-scheme: light; --ink: #183219; --muted: #58705a; --green: #5e945f; --green-dark: #2d6b39; --soft: #e7f3e2; --line: #d8e7d4; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 85% 0%, #c5e9aa 0, transparent 31rem), #f7faf5; color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    main { width: min(100% - 32px, 570px); margin: 0 auto; padding: 56px 0 42px; }
+    .mark { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 16px; color: #fff; background: var(--green); font-weight: 800; font-size: 20px; box-shadow: 0 8px 22px #5e945f42; }
+    h1 { margin: 20px 0 10px; font-size: clamp(32px, 9vw, 48px); line-height: 1.05; letter-spacing: -0.045em; }
+    .lead { max-width: 470px; margin: 0; color: var(--muted); font-size: 17px; line-height: 1.55; }
+    .card { margin-top: 28px; border: 1px solid var(--line); border-radius: 26px; padding: 22px; background: #fff; box-shadow: 0 18px 50px #244a2830; }
+    .eyebrow { margin: 0 0 8px; color: var(--green-dark); font-size: 11px; font-weight: 800; letter-spacing: .11em; }
+    h2 { margin: 0; font-size: 22px; letter-spacing: -0.025em; }
+    .hint { margin: 8px 0 18px; color: var(--muted); line-height: 1.45; }
+    .stores { display: grid; gap: 10px; }
+    .store, .open { min-height: 54px; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 16px; padding: 12px 16px; font-weight: 750; text-decoration: none; transition: transform .15s ease, opacity .15s ease; }
+    .store:hover, .open:hover { transform: translateY(-1px); }
+    .store { color: var(--ink); border: 1px solid var(--line); background: #fff; }
+    .open { margin-top: 12px; color: #fff; background: var(--green); }
+    .footnote { margin: 16px 0 0; color: var(--muted); font-size: 12px; line-height: 1.45; text-align: center; }
+    .invite { display: none; margin: 16px 0 0; padding: 11px 13px; border-radius: 13px; background: var(--soft); color: var(--green-dark); font-size: 13px; line-height: 1.4; }
+  </style>
 </head>
 <body>
   <main>
-    <h1>Straly</h1>
-    <p>Desafios e hábitos ativos.</p>
+    <span class="mark" aria-hidden="true">S</span>
+    <h1>Seu ritmo fica melhor em companhia.</h1>
+    <p class="lead">Crie desafios, registre seus check-ins e acompanhe a jornada junto com as pessoas que fazem você continuar.</p>
+    <div id="invite" class="invite">Você recebeu um convite para entrar no Straly.</div>
+    <section class="card" aria-label="Baixar o Straly">
+      <p class="eyebrow">COMUNIDADE STRALY</p>
+      <h2>Baixe o app para entrar.</h2>
+      <p class="hint">Escolha sua loja. Se você já instalou o Straly, também pode abrir o convite direto no app.</p>
+      <div class="stores">
+        <a class="store" href="https://play.google.com/store/apps/details?id=com.stralyapp.habits" rel="noopener noreferrer">Disponível para Android</a>
+        <a class="store" href="https://apps.apple.com/br/app/id6814829708" rel="noopener noreferrer">Disponível para iPhone</a>
+      </div>
+      <a id="open-app" class="open" href="straly://convidar">Abrir Straly</a>
+      <p class="footnote">O Straly abre apenas quando o app já está instalado. Caso contrário, escolha uma loja acima.</p>
+    </section>
   </main>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+    const challenge = params.get("challenge");
+    const app = document.getElementById("open-app");
+    if (ref && /^[A-Za-z0-9_-]{1,80}$/.test(ref)) {
+      document.getElementById("invite").style.display = "block";
+      app.href = `straly://convidar?ref=${encodeURIComponent(ref)}`;
+    }
+    if (challenge && /^[A-Z2-9]{9}$/i.test(challenge)) {
+      document.getElementById("invite").style.display = "block";
+      app.href = `straly://desafio-preview?code=${encodeURIComponent(challenge.toUpperCase())}`;
+    }
+  </script>
 </body>
 </html>
