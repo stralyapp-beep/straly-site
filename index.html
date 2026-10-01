@@ -25,6 +25,7 @@
     .open { margin-top: 12px; color: #fff; background: var(--green); }
     .footnote { margin: 16px 0 0; color: var(--muted); font-size: 12px; line-height: 1.45; text-align: center; }
     .invite { display: none; margin: 16px 0 0; padding: 11px 13px; border-radius: 13px; background: var(--soft); color: var(--green-dark); font-size: 13px; line-height: 1.4; }
+    .invite-code { display: none; margin-top: 7px; font-weight: 800; letter-spacing: .08em; }
   </style>
 </head>
 <body>
@@ -32,7 +33,7 @@
     <span class="mark" aria-hidden="true">S</span>
     <h1>Seu ritmo fica melhor em companhia.</h1>
     <p class="lead">Crie desafios, registre seus check-ins e acompanhe a jornada junto com as pessoas que fazem você continuar.</p>
-    <div id="invite" class="invite">Você recebeu um convite para entrar no Straly.</div>
+    <div id="invite" class="invite">Você recebeu um convite para entrar no Straly.<div id="invite-code" class="invite-code"></div></div>
     <section class="card" aria-label="Baixar o Straly">
       <p class="eyebrow">COMUNIDADE STRALY</p>
       <h2>Baixe o app para entrar.</h2>
@@ -56,7 +57,10 @@
     }
     if (challenge && /^[A-Z2-9]{9}$/i.test(challenge)) {
       document.getElementById("invite").style.display = "block";
-      app.href = `straly://desafio-preview?code=${encodeURIComponent(challenge.toUpperCase())}`;
+      const publicCode = challenge.toUpperCase();
+      document.getElementById("invite-code").textContent = `Código do desafio: #${publicCode}`;
+      document.getElementById("invite-code").style.display = "block";
+      app.href = `straly://desafio-preview?code=${encodeURIComponent(publicCode)}`;
     }
   </script>
 </body>
